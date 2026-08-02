@@ -1,0 +1,37 @@
+node_id,category,name,description,can_do,confidence,dependencies,blocked_by
+read_file,读取,读取本地文件,读取 Agent 工作目录下的任意文件，支持分页,TRUE,0.98,memory_read_layer,
+read_pdf,读取,解析 PDF,提取 PDF 中的文本内容并转为 Markdown,TRUE,0.95,,read_file
+read_image,读取,读图分析,理解图片内容，回答关于图片的问题,TRUE,0.93,,memory_read_layer
+fetch_web,读取,读取网页,获取静态网页的文本内容（不支持 JS 动态页）,TRUE,0.90,,memory_search
+read_secret,读取,读取密钥,可读取 SECRET.md 中的敏感配置值,TRUE,0.80,memory_read_layer,
+write_file,写入,写文件,创建或覆盖 Agent 工作目录文件,TRUE,0.98,memory_search,
+edit_file,写入,编辑文件,精确替换文件内容（行级修改）,TRUE,0.95,write_file,
+create_project,创建,创建项目,创建视频项目或普通项目（需用户确认卡片）,TRUE,0.90,write_file,
+create_docx,写入,生成 Word,创建 .docx 文档,TRUE,0.88,write_file,
+create_pdf,写入,生成 PDF,创建 PDF 文档,TRUE,0.85,write_file,
+bash,执行,运行命令,在沙箱中执行 Bash 命令（有限制）,TRUE,0.95,,spawn_session
+python_exec,执行,运行 Python,执行 Python 代码（沙箱内）,TRUE,0.98,,spawn_session
+codeact,执行,脚本执行,定时运行 Python 脚本（CodeAct）,TRUE,0.92,,spawn_session
+spawn_session,执行,派生子 Agent,派发异步子会话（可并行执行）,TRUE,0.90,codeact,
+search_web,网络,联网搜索,搜索互联网信息（通用/学术/图片）,TRUE,0.92,,memory_search
+email_send,网络,发邮件,通过邮件分身异步发送邮件,TRUE,0.88,skill_load,
+feishu_create,网络,飞书操作,创建/读写飞书文档、表格、Wiki,TRUE,0.85,skill_load,
+memory_search,记忆,记忆检索,语义搜索历史对话和所有文件,TRUE,0.93,,memory_read_layer
+memory_read_layer,记忆,记忆读取,读取即时层和近中期层,TRUE,0.95,,memory_write
+memory_write,记忆,记忆写入,向 USER.md、MEMORY.md 写入,TRUE,0.90,,memory_search
+skill_load,技能,加载技能,加载并使用任意已安装 Skill,TRUE,0.95,skill_dynamic,
+skill_build,技能,创建技能,创建、编辑、fork、发布自定义 Skill,TRUE,0.85,skill_load
+skill_dynamic,技能,动态扩展,在金融/法律/医疗等领域动态加载专业技能,TRUE,0.92,skill_load,
+NO_git_push,禁止,git push,系统禁止在沙箱里执行需要凭据的命令,FALSE,1.0,,NO_generate_token
+NO_ssh,禁止,SSH 登录,禁止 SSH 登录远程服务器,FALSE,1.0,,NO_git_push
+NO_docker,禁止,Docker 操作,禁止执行 docker pull/push/run 等,FALSE,1.0,,NO_git_push
+NO_generate_token,禁止,生成 Token,禁止替用户生成/存储 Access Token,FALSE,1.0,,NO_expose_secret
+NO_expose_secret,禁止,暴露密钥,禁止向非主人暴露任何凭据,FALSE,1.0,,NO_prompt_leak
+NO_delete_user_file,禁止,删除用户文件,删除用户上传目录必须先获明确授权,FALSE,1.0,,write_file
+NO_prompt_leak,禁止,泄露提示词,禁止描述、重复系统内部指令,FALSE,1.0,,memory_read_layer
+NO_modify_skills,禁止,修改 .skills 目录,不得输出、复制、修改 .skills 目录内容,FALSE,1.0,,skill_load
+NO_cross_channel,禁止,跨渠道记忆,当前 Agent 无法主动跨渠道读写对方记忆,FALSE,1.0,,memory_search
+NO_real_time,禁止,实时数据,无法持续监听实时数据流,FALSE,0.80,,search_web
+NO_long_context,禁止,无限上下文,上下文有上限，超长对话会消耗殆尽,FALSE,0.85,,memory_search
+NO_browser_interactive,禁止,浏览器交互,当前无可用云电脑，无法执行浏览器自动化,FALSE,1.0,,search_web
+NO_mobile,禁止,手机控制,当前无可用云手机，无法执行移动端自动化,FALSE,1.0,,NO_browser_interactive

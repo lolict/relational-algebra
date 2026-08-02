@@ -1,0 +1,21 @@
+{
+  "package-ecosystem": "pip",
+  "directory": "/",
+  "schedule": {
+    "interval": "weekly",
+    "day": "monday"
+  },
+  "open-pull-requests-limit": 5,
+  "reviewers": [],
+  "groups": {
+    "production-dependencies": {
+      "dependency-type": "production"
+    },
+    "dev-dependencies": {
+      "dependency-type": "development"
+    }
+  },
+  "commit-message": {
+    "prefix": "deps"
+  }
+}

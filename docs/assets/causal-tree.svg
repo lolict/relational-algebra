@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 500">
+  <defs>
+    <marker id="causalArrow" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#e53e3e"/>
+    </marker>
+    <marker id="temporalArrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#3182ce"/>
+    </marker>
+    <filter id="nodeShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="1" dy="1" stdDeviation="2" flood-opacity="0.2"/>
+    </filter>
+  </defs>
+
+  <!-- 背景 -->
+  <rect x="0" y="0" width="900" height="500" fill="#fafafa"/>
+
+  <!-- 标题 -->
+  <text x="450" y="30" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#333">
+    时序因果树 - 七层结构
+  </text>
+  <text x="450" y="50" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#666">
+    从事件层到元认知层的完整因果链条
+  </text>
+
+  <!-- 时间轴 -->
+  <line x1="50" y1="80" x2="50" y2="470" stroke="#ccc" stroke-width="2"/>
+  <text x="30" y="100" font-family="Arial, sans-serif" font-size="9" fill="#888">t=0</text>
+  <text x="30" y="200" font-family="Arial, sans-serif" font-size="9" fill="#888">t=1</text>
+  <text x="30" y="300" font-family="Arial, sans-serif" font-size="9" fill="#888">t=2</text>
+  <text x="30" y="400" font-family="Arial, sans-serif" font-size="9" fill="#888">t=3</text>
+  <text x="25" y="470" font-family="Arial, sans-serif" font-size="8" fill="#aaa">时间 →</text>
+
+  <!-- 第七层：元认知层 -->
+  <rect x="100" y="85" width="750" height="55" rx="8" fill="#f0f4ff" stroke="#5a67d8" stroke-width="2" filter="url(#nodeShadow)"/>
+  <text x="475" y="105" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#5a67d8">第七层：元认知层 (Meta-Cognition)</text>
+  <text x="475" y="125" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#666">自我监控 · 反思调整 · 跨时间一致性</text>
+
+  <!-- 第六层：整合层 -->
+  <rect x="100" y="155" width="750" height="55" rx="8" fill="#faf5ff" stroke="#805ad5" stroke-width="2" filter="url(#nodeShadow)"/>
+  <text x="475" y="175" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#805ad5">第六层：整合层 (Integration)</text>
+  <text x="475" y="195" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#666">多通道融合 · 跨模态关联 · 情境更新</text>
+
+  <!-- 第五层：决策层 -->
+  <rect x="100" y="225" width="750" height="55" rx="8" fill="#fff5f5" stroke="#e53e3e" stroke-width="2" filter="url(#nodeShadow)"/>
+  <text x="475" y="245" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#e53e3e">第五层：决策层 (Decision)</text>
+  <text x="475" y="265" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#666">行动选择 · 方案评估 · 意图形成</text>
+
+  <!-- 第四层：推理层 -->
+  <rect x="100" y="295" width="750" height="55" rx="8" fill="#f0fff4" stroke="#38a169" stroke-width="2" filter="url(#nodeShadow)"/>
+  <text x="475" y="315" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#38a169">第四层：推理层 (Reasoning)</text>
+  <text x="475" y="335" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#666">规则应用 · 类比隐喻 · 因果追溯</text>
+
+  <!-- 第三层：关联层 -->
+  <rect x="100" y="365" width="750" height="55" rx="8" fill="#fffff0" stroke="#d69e2e" stroke-width="2" filter="url(#nodeShadow)"/>
+  <text x="475" y="385" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#d69e2e">第三层：关联层 (Association)</text>
+  <text x="475" y="405" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#666">记忆关联 · 通道重叠 · 时空邻近 · 情感相似</text>
+
+  <!-- 因果向下箭头 -->
+  <line x1="475" y1="210" x2="475" y2="225" stroke="#e53e3e" stroke-width="2" marker-end="url(#causalArrow)"/>
+
+  <!-- 第二层：感知层 -->
+  <rect x="100" y="435" width="320" height="55" rx="8" fill="#e6fffa" stroke="#319795" stroke-width="2" filter="url(#nodeShadow)"/>
+  <text x="260" y="455" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#319795">第二层：感知层 (Perception)</text>
+  <text x="260" y="475" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#666">事件接收 · 通道分配</text>
+
+  <!-- 第一层：事件层 -->
+  <rect x="530" y="435" width="320" height="55" rx="8" fill="#ebf8ff" stroke="#3182ce" stroke-width="2" filter="url(#nodeShadow)"/>
+  <text x="690" y="455" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#3182ce">第一层：事件层 (Event)</text>
+  <text x="690" y="475" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#666">原始事件 · 时间戳</text>
+
+  <!-- 时间轴标注 -->
+  <g font-family="Arial, sans-serif" font-size="9" fill="#666">
+    <text x="850" y="100">毫秒级</text>
+    <text x="850" y="170">秒级</text>
+    <text x="850" y="240">秒-分钟</text>
+    <text x="850" y="310">分钟</text>
+    <text x="850" y="380">分钟+</text>
+    <text x="850" y="450">毫秒-秒</text>
+  </g>
+
+  <!-- 层间因果箭头（左侧） -->
+  <g stroke="#e53e3e" stroke-width="1.5" stroke-dasharray="5,3">
+    <!-- 第七到第六 -->
+    <line x1="100" y1="140" x2="100" y2="155"/>
+    <polygon points="100,140 95,150 105,150" fill="#e53e3e"/>
+
+    <!-- 第六到第五 -->
+    <line x1="100" y1="210" x2="100" y2="225"/>
+    <polygon points="100,210 95,220 105,220" fill="#e53e3e"/>
+
+    <!-- 第五到第四 -->
+    <line x1="100" y1="280" x2="100" y2="295"/>
+    <polygon points="100,280 95,290 105,290" fill="#e53e3e"/>
+
+    <!-- 第四到第三 -->
+    <line x1="100" y1="350" x2="100" y2="365"/>
+    <polygon points="100,350 95,360 105,360" fill="#e53e3e"/>
+
+    <!-- 第三到感知 -->
+    <line x1="100" y1="420" x2="260" y2="462" stroke="#d69e2e"/>
+    <polygon points="260,462 252,455 258,452" fill="#d69e2e"/>
+
+    <!-- 事件到感知 -->
+    <line x1="530" y1="462" x2="420" y2="462"/>
+    <polygon points="420,462 430,457 430,467" fill="#3182ce"/>
+  </g>
+
+  <!-- 底部说明框 -->
+  <rect x="100" y="80" width="15" height="340" rx="3" fill="none" stroke="#ccc" stroke-width="1"/>
+  <text x="70" y="250" font-family="Arial, sans-serif" font-size="10" fill="#888" transform="rotate(-90, 70, 250)">
+    因果传递方向 ↓
+  </text>
+
+  <!-- 图例 -->
+  <rect x="700" y="15" width="150" height="30" rx="5" fill="#fff" stroke="#ddd"/>
+  <line x1="710" y1="30" x2="740" y2="30" stroke="#e53e3e" stroke-width="2" stroke-dasharray="5,3"/>
+  <text x="750" y="35" font-family="Arial, sans-serif" font-size="10" fill="#666">因果关系</text>
+
+</svg>

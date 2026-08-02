@@ -1,0 +1,104 @@
+# 归属确定性引擎技能定义
+
+[skill]
+name = "attribution-engine"
+version = "0.1.0"
+description = "归属确定性分析技能，确定创作内容的来源：用户原创、AI生成或平台功能"
+author = "莫刘连理萝莉兰零离"
+
+[environment]
+runtime = "python3.8+"
+dependencies = [
+    "relational-algebra>=0.1.0",
+]
+
+[commands]
+
+[commands.analyze]
+description = "分析内容的归属来源"
+input_schema = {
+    "type": "object",
+    "properties": {
+        "content": {"type": "string", "description": "待分析的内容"},
+        "context": {
+            "type": "object",
+            "description = "上下文信息",
+            "properties": {
+                "is_generation_request": {"type": "boolean"},
+                "is_original_idea": {"type": "boolean"},
+                "user_id": {"type": "string"}
+            }
+        },
+        "user_id": {"type": "string", "description": "用户标识"}
+    }
+}
+output_schema = {
+    "type": "object",
+    "properties": {
+        "overall_source": {"type": "string", "enum": ["user", "agent", "platform", "collab", "unknown"]},
+        "overall_confidence": {"type": "number"},
+        "breakdown": {
+            "type": "object",
+            "properties": {
+                "user": {"type": "number"},
+                "agent": {"type": "number"},
+                "platform": {"type": "number"}
+            }
+        },
+        "summary": {"type": "string"}
+    }
+}
+
+[commands.generate_report]
+description = "生成详细的归属分析报告"
+input_schema = {
+    "type": "object",
+    "properties": {
+        "results": {"type": "array", "description": "AttributionResult 列表"}
+    }
+}
+output_schema = {
+    "type": "string",
+    "description": "JSON 格式的详细报告"
+}
+
+[capabilities]
+attribution_analysis = true
+confidence_scoring = true
+breakdown_calculation = true
+history_tracking = true
+
+[knowledge]
+attribution_sources = [
+    {name = "user", description = "用户原创贡献", weight_base = 0.3},
+    {name = "agent", description = "AI代为生成", weight_base = 0.25},
+    {name = "platform", description = "平台自动功能", weight_base = 0.1},
+    {name = "collab", description = "协作生成", weight_base = 0.2}
+]
+
+user_patterns = [
+    {pattern = "我", score = 0.3, source = "user"},
+    {pattern = "我的", score = 0.3, source = "user"},
+    {pattern = "咱们", score = 0.3, source = "user"},
+    {pattern = "哈", score = 0.2, source = "user"},
+    {pattern = "嘿", score = 0.2, source = "user"},
+    {pattern = "啦", score = 0.15, source = "user"}
+]
+
+agent_patterns = [
+    {pattern = "因此", score = 0.25, source = "agent"},
+    {pattern = "综上所述", score = 0.25, source = "agent"},
+    {pattern = "首先", score = 0.2, source = "agent"},
+    {pattern = "其次", score = 0.2, source = "agent"},
+    {pattern = "第一", score = 0.2, source = "agent"},
+    {pattern = "第二", score = 0.2, source = "agent"},
+    {pattern = "可能", score = 0.2, source = "agent"},
+    {pattern = "也许", score = 0.2, source = "agent"}
+]
+
+interpretation_rules = [
+    {user_ratio_min = 0.7, conclusion = "主要是用户原创"},
+    {user_ratio_min = 0.4, agent_ratio_min = 0.4, conclusion = "用户与AI协作"},
+    {agent_ratio_min = 0.6, conclusion = "主要是AI生成"},
+    {user_ratio_min = 0.8, conclusion = "完全用户原创"}
+]

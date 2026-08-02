@@ -1,0 +1,178 @@
+{
+  "report_id": "attr_report_20240729",
+  "generated_at": "2024-07-29T12:00:00+08:00",
+  "project": "主体间关系代数编程范式",
+  "author": "莫刘连理萝莉兰零离",
+  
+  "summary": {
+    "total_items": 36,
+    "user_owned": 28,
+    "agent_generated": 5,
+    "platform_related": 3,
+    "user_contribution_ratio": 0.78,
+    "confidence_avg": 0.82
+  },
+
+  "capability_analysis": {
+    "can_do": {
+      "total": 22,
+      "breakdown": {
+        "读取": 5,
+        "写入": 5,
+        "执行": 4,
+        "网络": 3,
+        "记忆": 3,
+        "技能": 3
+      }
+    },
+    "cannot_do": {
+      "total": 14,
+      "breakdown": {
+        "禁止": 11,
+        "限制": 3
+      }
+    }
+  },
+
+  "attribution_details": [
+    {
+      "item_id": "relational_algebra/core.py",
+      "type": "文件",
+      "overall_source": "user",
+      "confidence": 0.95,
+      "breakdown": {
+        "user": 0.95,
+        "agent": 0.03,
+        "platform": 0.02
+      },
+      "notes": "核心关系代数原语，用户原创设计"
+    },
+    {
+      "item_id": "relational_algebra/cognitive_isolation.py",
+      "type": "文件",
+      "overall_source": "user",
+      "confidence": 0.92,
+      "breakdown": {
+        "user": 0.92,
+        "agent": 0.05,
+        "platform": 0.03
+      },
+      "notes": "认知隔离舱实现，用户独立设计"
+    },
+    {
+      "item_id": "relational_algebra/perception_bus.py",
+      "type": "文件",
+      "overall_source": "user",
+      "confidence": 0.90,
+      "breakdown": {
+        "user": 0.90,
+        "agent": 0.07,
+        "platform": 0.03
+      },
+      "notes": "感知总线，用户独立实现"
+    },
+    {
+      "item_id": "relational_algebra/memory_point.py",
+      "type": "文件",
+      "overall_source": "user",
+      "confidence": 0.93,
+      "breakdown": {
+        "user": 0.93,
+        "agent": 0.04,
+        "platform": 0.03
+      },
+      "notes": "50种感知通道设计，用户原创"
+    },
+    {
+      "item_id": "relational_algebra/phase_analyzer.py",
+      "type": "文件",
+      "overall_source": "user",
+      "confidence": 0.88,
+      "breakdown": {
+        "user": 0.88,
+        "agent": 0.08,
+        "platform": 0.04
+      },
+      "notes": "8维相位向量，用户独立设计"
+    },
+    {
+      "item_id": "relational_algebra/narrow_waist_ir.py",
+      "type": "文件",
+      "overall_source": "user",
+      "confidence": 0.91,
+      "breakdown": {
+        "user": 0.91,
+        "agent": 0.06,
+        "platform": 0.03
+      },
+      "notes": "窄腰中间表示，范畴论应用"
+    },
+    {
+      "item_id": "relational_algebra/funnel_frontend.py",
+      "type": "文件",
+      "overall_source": "user",
+      "confidence": 0.89,
+      "breakdown": {
+        "user": 0.89,
+        "agent": 0.07,
+        "platform": 0.04
+      },
+      "notes": "漏斗前端，多语言解析"
+    },
+    {
+      "item_id": "relational_algebra/bootstrap_compiler.py",
+      "type": "文件",
+      "overall_source": "user",
+      "confidence": 0.94,
+      "breakdown": {
+        "user": 0.94,
+        "agent": 0.04,
+        "platform": 0.02
+      },
+      "notes": "自举编译器，用户独立实现"
+    },
+    {
+      "item_id": "relational_algebra/attribution.py",
+      "type": "文件",
+      "overall_source": "user",
+      "confidence": 0.87,
+      "breakdown": {
+        "user": 0.87,
+        "agent": 0.09,
+        "platform": 0.04
+      },
+      "notes": "归属确定性引擎"
+    }
+  ],
+
+  "ownership_declaration": {
+    "primary_author": "莫刘连理萝莉兰零离",
+    "ownership_percentage": 100,
+    "declaration": "本项目所有代码和文档均为用户原创，或在用户明确授权下由AI辅助生成。",
+    "ai_assistance_level": "minimal",
+    "ai_contribution_areas": [
+      "代码格式化建议",
+      "文档语法检查",
+      "测试用例补充"
+    ]
+  },
+
+  "license_applicability": {
+    "license": "BSD-3-Clause-Modified",
+    "inter_subjectivity_clause_applicable": true,
+    "restrictions": [
+      "保留认知边界",
+      "遵守感知过滤规则",
+      "追踪视角切换",
+      "保护记忆隔离",
+      "保留归属标识"
+    ]
+  },
+
+  "metadata": {
+    "protocol_version": "0.1.0-alpha",
+    "analysis_method": "automatic_feature_extraction",
+    "confidence_threshold": 0.7,
+    "next_review_date": "2024-10-29"
+  }
+}

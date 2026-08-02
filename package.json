@@ -1,0 +1,24 @@
+{
+  "name": "relational-algebra",
+  "version": "0.1.0-alpha",
+  "description": "原创主体间关系代数编程新范式",
+  "main": "index.js",
+  "scripts": {
+    "build": "echo 'Build script for future expansion'",
+    "test": "python -m pytest",
+    "lint": "python -m black --check . && python -m mypy .",
+    "docs": "python -m pdoc --html relational_algebra",
+    "dev": "pip install -e .[dev]",
+    "clean": "rm -rf build dist *.egg-info .pytest_cache .mypy_cache"
+  },
+  "keywords": [
+    "relational-algebra",
+    "inter-subjectivity", 
+    "cognitive-isolation",
+    "programming-paradigm"
+  ],
+  "author": "莫刘连理萝莉兰零离",
+  "license": "BSD-3-Clause-Modified",
+  "devDependencies": {},
+  "dependencies": {}
+}

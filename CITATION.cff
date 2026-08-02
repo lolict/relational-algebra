@@ -1,0 +1,25 @@
+cff-version: 1.2.0
+message: "如果您使用本项目，请引用以下内容："
+type: software
+title: "主体间关系代数编程范式"
+abstract: >-
+  一种基于认知隔离舱、感知总线和窄腰IR的新型编程范式。
+  将主体间性概念形式化为可计算的数学体系。
+authors:
+  - name: "莫刘连理萝莉兰零离"
+    affiliation: ""
+identifiers:
+  - type: url
+    value: "https://github.com/"
+keywords:
+  - relational-algebra
+  - inter-subjectivity
+  - cognitive-isolation
+  - programming-paradigm
+  - compiler
+  - category-theory
+license: BSD-3-Clause-Modified
+version: "0.1.0-alpha"
+date-released: "2024-01-01"
+url: "https://github.com/"
+repository-code: "https://github.com/.git"

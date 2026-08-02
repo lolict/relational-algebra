@@ -1,0 +1,183 @@
+{
+  "tasks": [
+    {
+      "id": "phase-1",
+      "name": "基础阶段",
+      "description": "完成核心数据结构和协议定义",
+      "duration": "4周",
+      "slices": [
+        {
+          "slice_id": "slice-1-1",
+          "name": "核心原语实现",
+          "tasks": [
+            "实现 Relation 数据结构",
+            "实现 Operator 算子枚举",
+            "实现 Signature 签名系统",
+            "实现 RelationalAlgebraEngine"
+          ],
+          "start": "Week 1",
+          "end": "Week 2"
+        },
+        {
+          "slice_id": "slice-1-2",
+          "name": "认知隔离舱",
+          "tasks": [
+            "实现 PerspectiveState 六态",
+            "实现 IsolationPod",
+            "实现 PerceptionEvent",
+            "实现 MemoryPoint 50通道"
+          ],
+          "start": "Week 2",
+          "end": "Week 3"
+        },
+        {
+          "slice_id": "slice-1-3",
+          "name": "感知总线",
+          "tasks": [
+            "实现 PerceptionBus",
+            "实现 emit_sync 广播",
+            "实现订阅回调机制",
+            "编写单元测试"
+          ],
+          "start": "Week 3",
+          "end": "Week 4"
+        }
+      ],
+      "deliverables": [
+        "relational_algebra/core.py",
+        "relational_algebra/cognitive_isolation.py",
+        "relational_algebra/perception_bus.py",
+        "单元测试覆盖率 > 80%"
+      ]
+    },
+    {
+      "id": "phase-2",
+      "name": "实现阶段",
+      "description": "完成编译架构和分析工具",
+      "duration": "8周",
+      "slices": [
+        {
+          "slice_id": "slice-2-1",
+          "name": "窄腰IR",
+          "tasks": [
+            "定义17种IRNodeKind",
+            "实现IRNode数据结构",
+            "实现SpaceSlice/TimeSlice",
+            "实现HomotopyClass同伦类"
+          ],
+          "start": "Week 5",
+          "end": "Week 6"
+        },
+        {
+          "slice_id": "slice-2-2",
+          "name": "漏斗前端",
+          "tasks": [
+            "实现LanguageSignature检测",
+            "实现Python/JS/Rust解析器",
+            "实现AST→IR转换",
+            "实现同伦合并"
+          ],
+          "start": "Week 6",
+          "end": "Week 8"
+        },
+        {
+          "slice_id": "slice-2-3",
+          "name": "自举编译器",
+          "tasks": [
+            "实现BootstrapCompiler",
+            "实现语义分析",
+            "实现优化遍",
+            "实现字节码生成"
+          ],
+          "start": "Week 8",
+          "end": "Week 10"
+        },
+        {
+          "slice_id": "slice-2-4",
+          "name": "认知相位分析",
+          "tasks": [
+            "定义8维PhaseVector",
+            "实现CognitivePhaseAnalyzer",
+            "实现相位比较和相似度",
+            "实现最优组合生成"
+          ],
+          "start": "Week 10",
+          "end": "Week 12"
+        }
+      ],
+      "deliverables": [
+        "relational_algebra/narrow_waist_ir.py",
+        "relational_algebra/funnel_frontend.py",
+        "relational_algebra/bootstrap_compiler.py",
+        "relational_algebra/phase_analyzer.py",
+        "支持至少5种语言的前端"
+      ]
+    },
+    {
+      "id": "phase-3",
+      "name": "扩展阶段",
+      "description": "完善工具链和文档",
+      "duration": "4周",
+      "slices": [
+        {
+          "slice_id": "slice-3-1",
+          "name": "归属确定性",
+          "tasks": [
+            "实现AttributionEngine",
+            "实现三权分立分析",
+            "生成归属报告"
+          ],
+          "start": "Week 13",
+          "end": "Week 14"
+        },
+        {
+          "slice_id": "slice-3-2",
+          "name": "工具链",
+          "tasks": [
+            "完善CLI工具",
+            "集成IDE支持",
+            "编写用户手册"
+          ],
+          "start": "Week 14",
+          "end": "Week 16"
+        }
+      ],
+      "deliverables": [
+        "relational_algebra/attribution.py",
+        "CLI工具",
+        "用户文档"
+      ]
+    },
+    {
+      "id": "phase-4",
+      "name": "部署阶段",
+      "description": "发布和社区建设",
+      "duration": "2周",
+      "slices": [
+        {
+          "slice_id": "slice-4-1",
+          "name": "发布准备",
+          "tasks": [
+            "完善文档",
+            "发布PyPI",
+            "建立GitHub Pages"
+          ],
+          "start": "Week 17",
+          "end": "Week 18"
+        }
+      ],
+      "deliverables": [
+        "正式发布 v0.1.0",
+        "PyPI包",
+        "在线文档站点"
+      ]
+    }
+  ],
+  "metadata": {
+    "project_name": "主体间关系代数编程范式",
+    "version": "0.1.0-alpha",
+    "start_date": "2024-01-01",
+    "estimated_end_date": "2024-04-30",
+    "total_duration_weeks": 18
+  }
+}

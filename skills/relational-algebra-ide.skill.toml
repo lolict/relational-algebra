@@ -1,0 +1,83 @@
+# 关系代数 IDE 技能定义
+
+[skill]
+name = "relational-algebra-ide"
+version = "0.1.0"
+description = "主体间关系代数 IDE 技能，提供代码补全、语法高亮和实时分析功能"
+author = "莫刘连理萝莉兰零离"
+
+[environment]
+runtime = "python3.8+"
+dependencies = [
+    "relational-algebra>=0.1.0",
+]
+
+[commands]
+
+[commands.analyze]
+description = "分析关系代数代码，提供补全建议"
+input_schema = {
+    "type": "object",
+    "properties": {
+        "code": {"type": "string", "description": "待分析的代码"},
+        "position": {"type": "integer", "description": "光标位置"}
+    }
+}
+output_schema = {
+    "type": "object",
+    "properties": {
+        "completions": {"type": "array", "items": {"type": "string"}},
+        "errors": {"type": "array"},
+        "suggestions": {"type": "array"}
+    }
+}
+
+[commands.visualize]
+description = "可视化隔离舱和感知总线结构"
+input_schema = {
+    "type": "object",
+    "properties": {
+        "source": {"type": "string", "description": "关系代数代码或 AST"}
+    }
+}
+output_schema = {
+    "type": "object",
+    "properties": {
+        "svg": {"type": "string", "description": "SVG 图形"},
+        "graph": {"type": "object", "description": "图结构数据"}
+    }
+}
+
+[capabilities]
+editing = true
+completion = true
+syntax_highlighting = true
+error_diagnostics = true
+refactoring = false
+
+[knowledge]
+perspective_states = [
+    "IDLE (待命)",
+    "ACTIVE (活跃)",
+    "OBSERVER (旁观)",
+    "CREATOR (创造)",
+    "EXPERIENCER (体验)",
+    "DREAMING (梦境)"
+]
+
+perception_channels = [
+    "基础感官 (5): SIGHT, HEARING, SMELL, TASTE, TOUCH",
+    "身体状态 (10): HUNGER, THIRST, FATIGUE, SLEEP, PAIN, WARMTH, COLDNESS, ILLNESS, WEIGHT, BALANCE",
+    "情感 (5): EMOTION, INTIMACY, DISTANCE, PLEASURE, BADNESS",
+    "抽象认知 (11): ETHICS, PSYCHOLOGY, PHYSIOLOGY, COMMON_SENSE, RIGHT_WRONG, QUANTITY, CLUMSINESS, HUMOR, BANTER, FUN, EMBARRASSMENT",
+    "场域 (5): FIELD, TIME_SPACE, ENVIRONMENT, TEMPERATURE, NATURE",
+    "社会想象 (10): FAMILY, PERSON, OBJECT, INSECT, GRASS, TREE, FLOWER, BEAST, FANTASY, TASTE_SENSE"
+]
+
+ir_node_types = [
+    "存在性: UNIT, VOID, WITNESS",
+    "空间变换: PROJECT, INJECT, LIFT",
+    "关系构造: PRODUCT, COPRODUCT, EXPONENTIAL, EQUALIZER, COEQUALIZER",
+    "时间因果: CAUSE, EFFECT, PARALLEL",
+    "范畴编织: BRAID, TWIST, COHERENCE"
+]

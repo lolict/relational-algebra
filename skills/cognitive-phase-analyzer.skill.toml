@@ -1,0 +1,102 @@
+# 认知相位分析技能定义
+
+[skill]
+name = "cognitive-phase-analyzer"
+version = "0.1.0"
+description = "认知相位分析技能，将文本或行为映射为8维认知向量"
+author = "莫刘连理萝莉兰零离"
+
+[environment]
+runtime = "python3.8+"
+dependencies = [
+    "relational-algebra>=0.1.0",
+]
+
+[commands]
+
+[commands.analyze_text]
+description = "从文本内容分析认知相位向量"
+input_schema = {
+    "type": "object",
+    "properties": {
+        "text": {"type": "string", "description": "待分析的文本"},
+        "context": {"type": "object", "description": "可选上下文信息"}
+    }
+}
+output_schema = {
+    "type": "object",
+    "properties": {
+        "phase_vector": {
+            "type": "object",
+            "properties": {
+                "creation": {"type": "number"},
+                "analysis": {"type": "number"},
+                "perception": {"type": "number"},
+                "emotion": {"type": "number"},
+                "social": {"type": "number"},
+                "logic": {"type": "number"},
+                "memory": {"type": "number"},
+                "reflection": {"type": "number"}
+            }
+        },
+        "dominant_dimension": {"type": "string"},
+        "magnitude": {"type": "number"}
+    }
+}
+
+[commands.compare]
+description = "比较两个认知相位向量的相似度"
+input_schema = {
+    "type": "object",
+    "properties": {
+        "phase1": {"type": "object", "description": "第一个相位向量"},
+        "phase2": {"type": "object", "description": "第二个相位向量"}
+    }
+}
+output_schema = {
+    "type": "object",
+    "properties": {
+        "cosine_similarity": {"type": "number"},
+        "euclidean_distance": {"type": "number"},
+        "conflicts": {"type": "array"},
+        "is_compatible": {"type": "boolean"}
+    }
+}
+
+[commands.generate_report]
+description = "生成认知相位分析报告"
+input_schema = {
+    "type": "object",
+    "properties": {
+        "phase_vector": {"type": "object"}
+    }
+}
+output_schema = {
+    "type": "string",
+    "description": "Markdown 格式的分析报告"
+}
+
+[capabilities]
+text_analysis = true
+real_time_tracking = true
+visualization = true
+pattern_recognition = true
+
+[knowledge]
+phase_dimensions = [
+    {name = "创造 (CREATION)", range = "0.0-1.0", description = "创造性思维能力"},
+    {name = "分析 (ANALYSIS)", range = "0.0-1.0", description = "分析性思维能力"},
+    {name = "感知 (PERCEPTION)", range = "0.0-1.0", description = "感知接收程度"},
+    {name = "情感 (EMOTION)", range = "0.0-1.0", description = "情感投入程度"},
+    {name = "社交 (SOCIAL)", range = "0.0-1.0", description = "社交互动倾向"},
+    {name = "逻辑 (LOGIC)", range = "0.0-1.0", description = "逻辑推理能力"},
+    {name = "记忆 (MEMORY)", range = "0.0-1.0", description = "记忆检索活跃度"},
+    {name = "反思 (REFLECTION)", range = "0.0-1.0", description = "元认知能力"}
+]
+
+similarity_thresholds = [
+    {name = "高度相似", cosine_min = 0.9, distance_max = 0.3},
+    {name = "中度相似", cosine_min = 0.7, distance_max = 0.7},
+    {name = "低度相似", cosine_min = 0.5, distance_max = 1.2},
+    {name = "显著不同", cosine_min = 0.0, distance_max = 9999.0}
+]
