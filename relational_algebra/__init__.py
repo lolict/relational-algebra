@@ -18,6 +18,7 @@
   observer          — 认知观测者（二阶观测/三元裁判/有无转换）
   monoidal          — 单子单位元（夫妻共同体/满全法/月全食）
   phase_router      — 相位路由器（时间切片/火候控制/动态推进）
+  ai_architecture  — AI架构关系代数化（Transformer/Mamba/RWKV对照/改造路线图）
 
 协议版本：1.0.0
 许可证：BSD-3-Clause-Interpersonal（主体间关系修改版）
