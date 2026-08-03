@@ -19,6 +19,7 @@
   monoidal          — 单子单位元（夫妻共同体/满全法/月全食）
   phase_router      — 相位路由器（时间切片/火候控制/动态推进）
   ai_architecture  — AI架构关系代数化（Transformer/Mamba/RWKV对照/改造路线图）
+  four_dimensional — 四维认知框架（0D有无/1D时间/2D博弈/3D裁判/4D镜像空间）
 
 协议版本：1.0.0
 许可证：BSD-3-Clause-Interpersonal（主体间关系修改版）
