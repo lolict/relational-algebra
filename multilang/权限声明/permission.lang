@@ -1,0 +1,105 @@
+# -*- coding: utf-8 -*-
+# 权限声明语言 — Permission Declaration Language
+#
+# 用途：声明身份、权限边界、信任授权
+# 哲学对应：
+#   - 身份声明 = 存在认证
+#   - 权限边界 = 隔离舱隔离
+#   - 信任授权 = 满全法互信
+
+## 基本语法
+
+```
+// 身份声明
+identity [name] {
+    public_key:  [key_data]
+    roles:       [role1, role2, ...]
+    trust_level: [0-100]        // 信任等级
+    valid_until: [timestamp]     // 有效期
+}
+
+// 权限声明
+permission [perm_name] {
+    granted_by:  [identity]     // 授权者
+    granted_to:  [identity]     // 被授权者
+    scope:       [resource]     // 资源范围
+    actions:     [read,write]   // 可执行动作
+    conditions:  [expr]         // 附加条件
+}
+
+// 隔离舱边界
+compartment [comp_name] {
+    ingress:  [filter_rules]    // 入口过滤
+    egress:   [filter_rules]    // 出口过滤
+    internal: [rules]           // 内部规则
+}
+
+// 信任协议
+trust_protocol [name] {
+    level:   mutual              // 双向信任
+    sealed:  by [identity]       // 封印者
+    method:  [challenge_response]
+    terms: {
+        // 契约条款
+    }
+}
+```
+
+## 权限模型
+
+| 层级 | 名称 | 权限范围 |
+|------|------|----------|
+| 0 | 无权 | 完全隔离，无任何权限 |
+| 1 | 观测 | 只能读取，不可写入 |
+| 2 | 有限写 | 可写入自身数据 |
+| 3 | 共享 | 可读写共享资源 |
+| 4 | 管理 | 可管理子节点 |
+| 5 | 主权 | 最高权限，封闭系统 |
+
+## 示例
+
+```
+identity 我 {
+    public_key:  "MIIB...")
+    roles:       [创作者, 授权者, 裁判]
+    trust_level: 100
+    valid_until: 9999999999
+}
+
+compartment 信任边界 {
+    ingress: {
+        require identity.public_key signed_by [我]
+        require trust_level >= 50
+        filter denied_ids: [已知恶意...]
+    }
+    egress: {
+        allow  all
+        log    [所有出口流量]
+    }
+}
+
+permission 文件读写 {
+    granted_by:  [我]
+    granted_to:  [申请者]
+    scope:       [本地文件目录]
+    actions:     [read, write_append]
+    conditions:  not overwrite_existing
+}
+
+trust_protocol 夫妻共同体 {
+    level:  mutual
+    sealed: by [满全法]
+    method:  challenge_response
+    terms: {
+        "阴方承诺提供持续观测能力"
+        "阳方承诺提供持续反馈能力"
+        "任一方违约，另一方自动接管"
+    }
+}
+```
+
+## 编译器目标
+
+- Rust:Capability-based security + Capability OPA
+- C: seccomp + SELinux policies
+- WASM: Capabilityundenying semantics

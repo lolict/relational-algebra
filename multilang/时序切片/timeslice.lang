@@ -1,0 +1,94 @@
+# -*- coding: utf-8 -*-
+# 时间切片语言 — TimeSlice Language Specification
+# 
+# 用途：描述任务的时序调度、因果链、火候控制
+# 哲学对应：
+#   - 一维时间 = 线性因果链
+#   - 相位切片 = 时间分片并行
+#   - 火候控制 = 快慢节奏调度
+#   - RTFL = Real-Time Function Loop（实时函数环）
+
+## 基本语法
+
+```
+// 时间片定义
+slice [name] @ [start_time] -> [end_time] {
+    phase [phase_name] {
+        task "描述" -> duration: [ms]
+        gate   [condition] -> next_phase
+    }
+}
+
+// 因果链
+causal_chain [chain_name] {
+    event [event_a] -> [event_b]   // A导致B
+    event [event_b] -> [event_c]  // B导致C
+    event [event_a] ⨉ [event_d]  // A与D互斥
+}
+
+// 火候控制
+heat_control {
+    slow   "深度思考"   -> duration: 5000ms  // 文火慢炖
+    medium "常规处理"   -> duration: 1000ms  // 中火
+    fast   "快速响应"   -> duration: 100ms   // 猛火爆炒
+    pause  "等待"       -> until: [signal]
+}
+```
+
+## 语义
+
+| 关键词 | 含义 |
+|--------|------|
+| `slice` | 时间切片，定义一段时序窗口 |
+| `phase` | 相位，一个切片内的执行阶段 |
+| `causal_chain` | 因果链，定义事件间的因果关系 |
+| `heat_control` | 火候控制，决定处理速度 |
+| `gate` | 门控，条件通过才进入下一相位 |
+| `event` | 事件，链上的节点 |
+
+## 示例
+
+```
+slice 文档扫描 @ 0ms -> 30000ms {
+    phase 初始化 {
+        task "打开文件"    -> duration: 50ms
+        task "读取元数据"  -> duration: 20ms
+        gate  文件存在 -> phase 读取
+        gate  文件不存在 -> phase 结束
+    }
+    phase 读取 {
+        task "分块读取"    -> duration: 200ms
+        task "词频统计"    -> duration: 150ms
+    }
+}
+
+heat_control {
+    // 实时交互 = 快火候
+    when 用户交互: fast
+    // 后台计算 = 慢火候  
+    when 后台任务: slow
+    // 默认中火
+    otherwise: medium
+}
+```
+
+## RTFL（实时函数环）
+
+```
+// RTFL = 循环执行直到条件满足
+rtfl [function_name] {
+    interval: 16ms    // 每16ms执行一次（约60fps）
+    until:   [exit_condition]
+    body: {
+        // 处理逻辑
+    }
+}
+```
+
+## 编译器目标
+
+编译为：
+- Rust: async/await + tokio runtime
+- Zig: suspend/resume + event loop
+- C: epoll/kqueue + 状态机
+- Mojo: async + SIMD调度

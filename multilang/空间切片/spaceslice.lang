@@ -1,0 +1,105 @@
+# -*- coding: utf-8 -*-
+# 空间切片语言 — SpaceSlice Language Specification
+# 
+# 用途：描述多维空间分布、层级节点、分布式内存布局
+# 哲学对应：
+#   - 0D = 有/无 + 频次率（离散点）
+#   - 1D = 时间轴（一维线）
+#   - 2D = 二元博弈平面
+#   - 3D = 三元裁判立体空间
+#   - 4D = 镜像空间（混元闭环）
+
+## 基本语法
+
+```
+// 空间维度声明
+dimension [dim_name] = [count]    // 维度大小
+
+// 层级声明
+layer [layer_name] {
+    node    [node_name] at [coord]     // 节点位置
+    channel [channel_name] -> [target]  // 通道连接
+    memory  [size] @ [coord]           // 内存布局
+}
+
+// 分布式节点
+node [node_id] {
+    position: (x, y, z)     // 3D笛卡尔坐标
+    radius:   [float]       // 统计锥半径
+    capacity: [count]        // 容器容量
+    relation: [type]        // 与邻居的关系类型
+}
+
+// 空间路由
+route [from] -> [to] {
+    via:     [path_type]    // 直连/跳跃/环
+    cost:    [weight]        // 路由代价
+    capacity: [limit]        // 通道带宽
+}
+```
+
+## 维度语义
+
+| 维度 | 空间含义 | 统计含义 |
+|------|----------|----------|
+| 0D | 有/无点 | 频次率（是否被观测） |
+| 1D | 时间轴线 | 因果链长度 |
+| 2D | 博弈平面 | 残差统计分布 |
+| 3D | 裁判空间 | 公约状态收敛 |
+| 4D | 镜像空间 | 混元闭环控制 |
+
+## 示例
+
+```
+// 三维网格空间
+dimension X = 8
+dimension Y = 8  
+dimension Z = 4
+
+layer 认知隔离舱 {
+    node 观测者A at (0, 0, 0) {
+        capacity: 254        // 254容器
+        radius: 1.0          // 全连接
+    }
+    node 观测者B at (7, 7, 3) {
+        capacity: 254
+        radius: 1.0
+    }
+    // 夫妻共同体：两节点互为阴阳
+    channel 夫妻通道 -> (观测者A <-> 观测者B) {
+        type: monoid         // 满全法融合通道
+    }
+}
+
+// 空间路由
+route 观测者A -> 观测者B {
+    via: shortest_path
+    cost: 欧几里得距离
+    capacity: 无限
+}
+```
+
+## 编译器目标
+
+编译为：
+- Rust: 空间数据结构和图算法
+- C: 指针图和内存布局
+- Zig: comptime空间布局计算
+- WASM: 线性内存分段
+
+## 254容器空间布局
+
+```
+内存布局: [YIN(1byte)][YANG(1byte)][container[254]]
+           阴箱        阳箱        统计容器
+
+分布式节点: node_id * 256 = 基地址
+多节点共享: 所有节点共享同一个256字节页面
+```
+
+## 统计锥空间
+
+```
+统计锥 = 以观测者为中心的球形空间
+半径 = sqrt(observer.density * 254 / pi)
+```

@@ -1,0 +1,135 @@
+# -*- coding: utf-8 -*-
+# 契约编程语言 — Contract Language Specification
+#
+# 用途：声明前置条件、后置条件、不变量、失效处理
+# 哲学对应：
+#   - 前置条件 = 间接存在的入场券
+#   - 后置条件 = 收敛的目标状态
+#   - 不变量 = 公约（3D裁判的锚点）
+#   - 失效处理 = 博弈残差的处置方式
+
+## 基本语法
+
+```
+contract [contract_name] {
+    // 前置条件：进入契约前必须满足
+    requires [condition] "描述"
+    requires [condition] "描述"
+    
+    // 后置条件：契约执行完毕后必须满足
+    ensures  [condition] "描述"
+    ensures  [condition] "描述"
+    
+    // 不变量：契约执行期间始终满足
+    invariant [condition] "描述"
+    
+    // 失效处理：当契约被打破时的行为
+    breaks {
+        quarantine     // 隔离该实体
+        rollback       // 回滚到上一状态
+        compensate     // 赔偿/补偿
+        notify [who]   // 通知指定方
+        revoke         // 撤销所有关联权限
+    }
+}
+
+// 关系契约（观测者↔观测者）
+relational [rel_name] between [entity_a] and [entity_b] {
+    requires_a: [a的条件]
+    requires_b: [b的条件]
+    ensures_a:  [a的承诺]
+    ensures_b:  [b的承诺]
+    violation: [惩罚机制]
+}
+
+// 态射契约（输入→输出的映射规则）
+morphism [name]: [domain] -> [codomain] {
+    domain_invariant: [定义域不变量]
+    codomain_invariant: [陪域不变量]
+    map_rule: [x] -> [f(x)]   // 映射规则
+}
+```
+
+## 契约类型
+
+| 类型 | 含义 | 适用场景 |
+|------|------|----------|
+| `contract` | 通用契约 | 函数/模块/系统 |
+| `relational` | 关系契约 | 实体间协议 |
+| `morphism` | 态射契约 | 输入输出映射 |
+
+## 示例
+
+```
+// 税务契约：高频词必须被收录
+contract 税务契约 {
+    requires 观测者.频次 >= 5
+        "高频词（≥5次）必须进入统计锥"
+    
+    requires 观测者.判断结果 in {应收税, 待观测}
+        "已判定为免税的词不可收录"
+    
+    ensures 容器[hash(观测者.id)] == 1
+        "观测者必须被编码进256容器"
+    
+    ensures 月全食 == true
+        "满全态必须达成"
+    
+    invariant 阴箱 > 0 and 阳箱 > 0
+        "阴阳两极必须同时存在"
+    
+    breaks {
+        quarantine 观测者
+        notify 裁判委员会
+        log "契约破裂: " + 观测者.id
+    }
+}
+
+// 夫妻共同体契约
+relational 夫妻共同体 between 阴 and 阳 {
+    requires_a: 阴.内容 != null
+        "阴方必须持有有效数据"
+    requires_b: 阳.状态 == "可接收"
+        "阳方必须处于可融合状态"
+    
+    ensures_a: 阴.授权.contains(阳.id)
+        "阴方必须授权阳方访问"
+    ensures_b: 阳.混元闭包.contains(阴.id)
+        "阳方必须将阴方纳入融合结果"
+    
+    violation: {
+        // 打破婚姻契约 = 系统降级
+        系统.模式 = 降级模式
+        通知.所有相关方()
+    }
+}
+
+// 统计锥态射
+morphism 统计锥态射: 全量观测者集 -> 核心观测者集 {
+    domain_invariant: 
+        所有观测者.间接存在密度 in [0.0, 1.0]
+    
+    codomain_invariant:
+        核心观测者.间接存在密度 >= 阈值
+    
+    map_rule: [观测者] -> [收敛(观测者, 阈值)]
+        // 过滤低密度观测者，只保留高密度
+}
+```
+
+## 编译器目标
+
+- Rust: `#[requires()]`, `#[ensures()]`, `#[invariant()]`
+- C: __builtin_precondition / assert
+- Prolog: 逻辑断言 + 逆向推理
+- Ruby: contracts.ruby gem
+
+## 语义验证
+
+```
+验证器检查：
+1. requires 必须能在入口处被证明
+2. ensures 必须在出口处被证明  
+3. invariant 在所有中间状态保持为真
+4. breaks 定义了有效的补偿机制
+```
