@@ -326,7 +326,7 @@ def main(工作目录: Optional[str] = None):
     用法: python local_processor.py [工作目录路径]
     """
     import sys
-    目录 = sys.argv[1] if len(sys.argv) > 1 else os.path.dirname(os.path.dirname(__file__))
+    目录 = sys.argv[1] if len(sys.argv) > 1 else "../../relational_algebra" if len(sys.argv) > 1 else os.path.dirname(os.path.dirname(__file__))
     print(f"🔍 启动文件观测者系统")
     print(f"📁 工作目录: {目录}")
     系统 = 文件观测者系统(工作目录=目录)
