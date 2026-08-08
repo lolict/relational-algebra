@@ -71,6 +71,17 @@ class 关系引擎:
         
         # 全局关系
         self._全局: Dict[str, 混元态] = {}
+        
+        # 当前程序引用（用于函数调用）
+        self.当前程序 = None
+        self.调用栈: List[List[int]] = []
+        # 参数栈（用于函数调用时的参数传递）
+        self.参数栈: List[Any] = []
+        # 函数执行栈（函数体内部使用）
+        self._函数栈: List[混元态] = []
+        # 254个参数引用处理（200-255 → 从参数栈取第n个值）
+        for i in range(56):
+            self._处理器[200 + i] = self._处理参数引用(i)
     
     def _注册内置处理(self):
         """注册254个内置关系处理"""
@@ -113,43 +124,77 @@ class 关系引擎:
         self._处理器[130] = self._处理裁决权
         self._处理器[131] = self._处理委派
         
-        # 其余用通用处理
-        for i in range(3, 256):
-            if i not in self._处理器:
-                self._处理器[i] = self._处理通用
+        # 不注册通用处理——未注册的符号由执行关系直接压入数字值
     
     # ===== 核心关系处理 =====
-    
+
     def _处理阴(self, 上下文) -> 混元态:
         """阴 = 刘楚恬"""
-        return 混元态(阴=0, 阳=0, 结果=0)
-    
+        态 = 混元态(阴=0, 阳=0, 结果=0)
+        self.栈.append(态)
+        return 态
+
     def _处理阳(self, 上下文) -> 混元态:
         """阳 = 满全法"""
-        return 混元态(阴=1, 阳=1, 结果=1)
-    
+        态 = 混元态(阴=1, 阳=1, 结果=1)
+        self.栈.append(态)
+        return 态
+
     def _处理混元(self, 上下文) -> 混元态:
         """混元 = 夫妻共同体"""
-        return 混元态(阴=0, 阳=1, 结果="刘楚恬@满全法")
+        态 = 混元态(阴=0, 阳=1, 结果="刘楚恬@满全法")
+        self.栈.append(态)
+        return 态
     
     def _处理融合(self, 上下文) -> 混元态:
         """融合 = 阴+阳→混元"""
-        b = self._弹出()
-        a = self._弹出()
-        return 混元态(阴=a.阴, 阳=b.阳, 结果=(a.结果, b.结果))
+        if self._函数栈:
+            b = self._函数栈.pop()
+            a = self._函数栈.pop()
+            if isinstance(a.结果, int) and isinstance(b.结果, int):
+                结果 = a.结果 + b.结果
+            else:
+                结果 = (a.结果, b.结果)
+            态 = 混元态(阴=0, 阳=1, 结果=结果)
+            self._函数栈.append(态)
+            return 态
+        else:
+            b = self._弹出()
+            a = self._弹出()
+            if isinstance(a.结果, int) and isinstance(b.结果, int):
+                结果 = a.结果 + b.结果
+            else:
+                结果 = (a.结果, b.结果)
+            态 = 混元态(阴=0, 阳=1, 结果=结果)
+            self.栈.append(态)
+            return 态
     
     def _处理观测(self, 上下文) -> 混元态:
-        """观测 = 从栈顶取值"""
-        a = self._弹出()
-        return 混元态(阴=0, 阳=a.阳, 结果=a.结果)
+        """观测 = 返回值"""
+        if self._函数栈:
+            return self._函数栈[-1]
+        else:
+            a = self._弹出()
+            return a
     
     def _处理裁决(self, 上下文) -> 混元态:
         """裁决 = 三元选择"""
-        假 = self._弹出()
-        真 = self._弹出()
-        条件 = self._弹出()
-        结果 = 真.结果 if 条件.结果 else 假.结果
-        return 混元态(阴=0, 阳=1, 结果=结果)
+        if self._函数栈:
+            假 = self._函数栈.pop()
+            真 = self._函数栈.pop()
+            条件 = self._函数栈.pop()
+            结果 = 真.结果 if 条件.结果 else 假.结果
+            态 = 混元态(阴=0, 阳=1, 结果=结果)
+            self._函数栈.append(态)
+            return 态
+        else:
+            假 = self._弹出()
+            真 = self._弹出()
+            条件 = self._弹出()
+            结果 = 真.结果 if 条件.结果 else 假.结果
+            态 = 混元态(阴=0, 阳=1, 结果=结果)
+            self.栈.append(态)
+            return 态
     
     def _处理态射(self, 上下文) -> 混元态:
         """态射 = 映射"""
@@ -217,9 +262,67 @@ class 关系引擎:
         执行者 = self._弹出()
         return 混元态(阴=0, 阳=执行者.阳, 结果=f"授权:{执行者.结果}")
     
+    def _处理参数引用(self, 偏移: int):
+        """参数引用 = 从参数栈取第n个值，压入函数栈"""
+        def 处理(上下文):
+            if 偏移 < len(self.参数栈):
+                值 = self.参数栈[偏移]
+                态 = 混元态(阴=0, 阳=1, 结果=值)
+            else:
+                态 = 混元态(阴=0, 阳=0, 结果=0)
+            self._函数栈.append(态)
+            return 态
+        return 处理
+    
     def _处理执行(self, 上下文) -> 混元态:
-        """执行 = 执行者执行任务"""
+        """执行 = 函数调用"""
         任务 = self._弹出()
+        
+        if isinstance(任务.结果, int) and self.当前程序 is not None:
+            函数ID = 任务.结果
+            if hasattr(self.当前程序, '函数定义') and 函数ID < len(self.当前程序.函数定义):
+                函数 = self.当前程序.函数定义[函数ID]
+                函数体 = 函数['函数体']
+                参数数量 = 函数.get('参数数', 0)
+                
+                # 从主栈取参数值（逆序弹出）
+                参数值列表: List[Any] = []
+                for _ in range(参数数量):
+                    if self.栈:
+                        参 = self.栈.pop()
+                        参数值列表.append(参.结果)
+                参数值列表.reverse()
+                
+                # 参数值存到参数栈
+                self.参数栈.extend(参数值列表)
+                # 清空函数栈
+                self._函数栈 = []
+                
+                # 执行函数体
+                结果 = None
+                for 符号 in 函数体:
+                    态 = self.执行关系(符号, 结果)
+                    结果 = 态.结果
+                
+                # 从函数栈取返回值，替换主栈顶
+                if self._函数栈:
+                    结果态 = self._函数栈.pop()
+                else:
+                    结果态 = 混元态(阴=0, 阳=1, 结果=结果)
+                # 替换主栈顶（把函数ID弹出后的栈顶替换为返回值）
+                if self.栈:
+                    self.栈.pop()
+                self.栈.append(结果态)
+                
+                # 清理参数栈
+                for _ in range(参数数量):
+                    if self.参数栈:
+                        self.参数栈.pop()
+                
+                if self.调用栈:
+                    self.调用栈.pop()
+                return 结果态
+        
         return 混元态(阴=1, 阳=1, 结果=f"执行:{任务.结果}")
     
     def _处理裁决权(self, 上下文) -> 混元态:
@@ -260,17 +363,28 @@ class 关系引擎:
         """执行254个符号之一"""
         if 符号 in self._处理器:
             return self._处理器[符号](上下文)
-        return self._处理通用(上下文)
+        # 通用符号 → 把数字值压入主栈
+        态 = 混元态(阴=符号, 阳=符号, 结果=符号)
+        self.栈.append(态)
+        return 态
     
-    def 执行程序(self, 程序: List[int]) -> 混元态:
+    def 执行程序(self, 程序) -> 混元态:
         """
         执行一个256符号程序
         
-        程序 = 256符号序列
+        程序 = 256符号序列 或 关系程序对象
         不是字节码，是关系序列
         """
+        # 支持传入 关系程序 对象 或 字节列表
+        if hasattr(程序, '主程序'):
+            self.当前程序 = 程序
+            程序段 = 程序.主程序
+        else:
+            self.当前程序 = 程序  # 存字节列表
+            程序段 = 程序
+        
         结果 = None
-        for 符号 in 程序:
+        for 符号 in 程序段:
             态 = self.执行关系(符号, 结果)
             结果 = 态.结果
         return 混元态(阴=0, 阳=1, 结果=结果)
