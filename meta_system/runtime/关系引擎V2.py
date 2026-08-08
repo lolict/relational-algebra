@@ -96,6 +96,7 @@ class 关系引擎:
         self._处理器[18] = self._处理裁决
         self._处理器[19] = self._处理态射
         self._处理器[24] = self._处理积  # 积 = 乘法
+        self._处理器[25] = self._处理商  # 商 = 除法
         self._处理器[49] = self._处理分离  # 分离 = 减法
         
         # 32-63: 时间关系
@@ -265,6 +266,35 @@ class 关系引擎:
             a = self._弹出()
             if isinstance(a.结果, int) and isinstance(b.结果, int):
                 结果 = a.结果 - b.结果
+            else:
+                结果 = (a.结果, b.结果)
+            态 = 混元态(阴=0, 阳=1, 结果=结果)
+            self.栈.append(态)
+            return 态
+    
+    def _处理商(self, 上下文) -> 混元态:
+        """商 = 除法"""
+        if self._函数栈:
+            b = self._函数栈.pop()
+            a = self._函数栈.pop()
+            if isinstance(a.结果, int) and isinstance(b.结果, int):
+                if b.结果 == 0:
+                    结果 = 0  # 除零保护，返回0而非崩溃
+                else:
+                    结果 = a.结果 // b.结果  # 整数除法
+            else:
+                结果 = (a.结果, b.结果)
+            态 = 混元态(阴=0, 阳=1, 结果=结果)
+            self._函数栈.append(态)
+            return 态
+        else:
+            b = self._弹出()
+            a = self._弹出()
+            if isinstance(a.结果, int) and isinstance(b.结果, int):
+                if b.结果 == 0:
+                    结果 = 0
+                else:
+                    结果 = a.结果 // b.结果
             else:
                 结果 = (a.结果, b.结果)
             态 = 混元态(阴=0, 阳=1, 结果=结果)

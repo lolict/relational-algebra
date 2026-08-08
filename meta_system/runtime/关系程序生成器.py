@@ -399,6 +399,9 @@ class 关系程序生成器:
             elif node.算子 == '*':
                 # 积(24): 乘法
                 return l + r + [24]
+            elif node.算子 == '/':
+                # 商(25): 除法
+                return l + r + [25]
             elif node.算子 == '-':
                 return l + r + [分离]  # 分离(49) ≈ 减法
             elif node.算子 in ('==', '!=', '<', '>', '<=', '>='):
