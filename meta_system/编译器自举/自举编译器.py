@@ -761,8 +761,18 @@ class 语法分析器:
         return 左
 
     def 解析融合表达式(self) -> AST节点:
-        左 = self.解析税务表达式()
+        左 = self.解析乘除表达式()
         while self.当前() and self.当前().内容 in ('+', '-', '⊕', '∘'):
+            op = self.当前().内容
+            self.前进()
+            右 = self.解析乘除表达式()
+            左 = 融合节点(左=左, 右=右, 算子=op)
+        return 左
+
+    def 解析乘除表达式(self) -> AST节点:
+        """处理 * / % ⊗ 等乘除操作符（优先级高于加减）"""
+        左 = self.解析税务表达式()
+        while self.当前() and self.当前().内容 in ('*', '/', '%', '⊗'):
             op = self.当前().内容
             self.前进()
             右 = self.解析税务表达式()

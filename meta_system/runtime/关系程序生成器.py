@@ -391,16 +391,16 @@ class 关系程序生成器:
             l = self._编译表达式(node.左)
             r = self._编译表达式(node.右)
             if node.算子 in ('+', '⊕'):
-                # 融合(16): 栈弹出 a, b → 融合(a,b)
+                # 融合(16): 加法
                 return l + r + [融合]
             elif node.算子 == '∘':
                 # 态射复合 → 态射(19)
                 return l + r + [态射]
             elif node.算子 == '*':
-                # 乘法用融合的叠加
-                return l + r + [融合]
+                # 积(24): 乘法
+                return l + r + [24]
             elif node.算子 == '-':
-                return l + r + [分离]  # 分离 ≈ 减法
+                return l + r + [分离]  # 分离(49) ≈ 减法
             elif node.算子 in ('==', '!=', '<', '>', '<=', '>='):
                 return l + r + [裁决]  # 比较用裁决
             else:

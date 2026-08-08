@@ -95,6 +95,8 @@ class 关系引擎:
         self._处理器[17] = self._处理观测
         self._处理器[18] = self._处理裁决
         self._处理器[19] = self._处理态射
+        self._处理器[24] = self._处理积  # 积 = 乘法
+        self._处理器[49] = self._处理分离  # 分离 = 减法
         
         # 32-63: 时间关系
         self._处理器[32] = self._处理同时
@@ -223,8 +225,51 @@ class 关系引擎:
     def _处理包含(self, 上下文) -> 混元态:
         return 混元态(阴=0, 阳=1, 结果="包含")
     
+    def _处理积(self, 上下文) -> 混元态:
+        """积 = 乘法"""
+        if self._函数栈:
+            b = self._函数栈.pop()
+            a = self._函数栈.pop()
+            if isinstance(a.结果, int) and isinstance(b.结果, int):
+                结果 = a.结果 * b.结果
+            else:
+                结果 = (a.结果, b.结果)
+            态 = 混元态(阴=0, 阳=1, 结果=结果)
+            self._函数栈.append(态)
+            return 态
+        else:
+            b = self._弹出()
+            a = self._弹出()
+            if isinstance(a.结果, int) and isinstance(b.结果, int):
+                结果 = a.结果 * b.结果
+            else:
+                结果 = (a.结果, b.结果)
+            态 = 混元态(阴=0, 阳=1, 结果=结果)
+            self.栈.append(态)
+            return 态
+    
     def _处理分离(self, 上下文) -> 混元态:
-        return 混元态(阴=0, 阳=1, 结果="分离")
+        """分离 = 减法"""
+        if self._函数栈:
+            b = self._函数栈.pop()
+            a = self._函数栈.pop()
+            if isinstance(a.结果, int) and isinstance(b.结果, int):
+                结果 = a.结果 - b.结果
+            else:
+                结果 = (a.结果, b.结果)
+            态 = 混元态(阴=0, 阳=1, 结果=结果)
+            self._函数栈.append(态)
+            return 态
+        else:
+            b = self._弹出()
+            a = self._弹出()
+            if isinstance(a.结果, int) and isinstance(b.结果, int):
+                结果 = a.结果 - b.结果
+            else:
+                结果 = (a.结果, b.结果)
+            态 = 混元态(阴=0, 阳=1, 结果=结果)
+            self.栈.append(态)
+            return 态
     
     def _处理重叠(self, 上下文) -> 混元态:
         return 混元态(阴=0, 阳=1, 结果="重叠")
@@ -285,15 +330,13 @@ class 关系引擎:
                 函数体 = 函数['函数体']
                 参数数量 = 函数.get('参数数', 0)
                 
-                # 从主栈取参数值（逆序弹出）
+                # 从主栈取参数值（弹出顺序已正确，无需reverse）
                 参数值列表: List[Any] = []
                 for _ in range(参数数量):
                     if self.栈:
                         参 = self.栈.pop()
                         参数值列表.append(参.结果)
-                参数值列表.reverse()
-                
-                # 参数值存到参数栈
+                # 参数栈直接使用弹出顺序（最后一个参数先弹出，排在列表末尾）
                 self.参数栈.extend(参数值列表)
                 # 清空函数栈
                 self._函数栈 = []
